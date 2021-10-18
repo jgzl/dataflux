@@ -1,4 +1,4 @@
-package com.github.jgzl.dataflux.init;
+package com.github.jgzl.dataflux.configuration;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
