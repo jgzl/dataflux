@@ -1,0 +1,25 @@
+version: '3'
+services:
+  dataflux-mysql:
+    build:
+      context: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    restart: always
+    container_name: dataflux-mysql
+    hostname: dataflux-mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+
+  dataflux-redis:
+    image: redis:6.2.5-alpine
+    restart: always
+    container_name: dataflux-redis
+    hostname: dataflux-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./data/redis:/data
+    command: redis-server --requirepass yourpassword
