@@ -5,6 +5,7 @@ import com.github.jgzl.dataflux.domain.SysUser;
 import com.github.jgzl.dataflux.repository.SysUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.redisson.api.RedissonReactiveClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +26,9 @@ public class DatafluxApplicationTests {
     @Autowired
     private SysUserRepository sysUserRepository;
     @Autowired
-    private ReactiveRedisTemplate reactiveRedisTemplate;
+    private ReactiveRedisTemplate<String,String> reactiveRedisTemplate;
+    @Autowired
+    private RedissonReactiveClient redissonReactiveClient;
 
     @Test
     void contextLoads() {
@@ -42,15 +45,15 @@ public class DatafluxApplicationTests {
         )).blockLast(Duration.ofSeconds(10));
         log.info("结束新增数据");
         log.info("开始查询数据");
-        ReactiveHashOperations hashOperations = reactiveRedisTemplate.opsForHash();
+        ReactiveHashOperations<String, String, String> hashOperations = reactiveRedisTemplate.opsForHash();
         String user_key = applicationName+":user";
         sysUserRepository.findAll(Example.of(new SysUser())).doOnNext(item->{
             hashOperations.put(user_key, item.getAccount(), JSON.toJSONString(item));
-            Mono mono = hashOperations.get(user_key, item.getAccount());
+            Mono<String> mono = hashOperations.get(user_key, item.getAccount());
             mono.subscribe(s->{
-                log.info("redis info:{}",JSON.parseObject(s.toString(),SysUser.class));
+                SysUser sysUser = JSON.parseObject(s, SysUser.class);
+                log.info("redis info:{}", sysUser);
             });
-            log.info(item.toString());
         }).blockLast(Duration.ofSeconds(10));
         log.info("结束查询数据");
         log.info("开始删除数据");
