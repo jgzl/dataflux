@@ -12,7 +12,7 @@
     <artifactId>dataflux</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>dataflux</name>
-    <description>dataflux</description>
+    <description>dataflux-使用异步化框架spring webflux对mysql,redis增删改查</description>
     <properties>
         <java.version>1.8</java.version>
         <fastjson.version>1.2.78</fastjson.version>
