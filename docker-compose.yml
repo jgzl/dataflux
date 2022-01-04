@@ -4,7 +4,7 @@ services:
     build:
       context: ./db
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: P@88w0rd
     restart: always
     container_name: dataflux-mysql
     hostname: dataflux-mysql
@@ -22,4 +22,4 @@ services:
       - "6379:6379"
     volumes:
       - ./data/redis:/data
-    command: redis-server --requirepass 123456
+    command: redis-server --requirepass P@88w0rd

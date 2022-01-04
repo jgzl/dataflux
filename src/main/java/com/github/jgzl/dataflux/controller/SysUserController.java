@@ -1,7 +1,7 @@
 package com.github.jgzl.dataflux.controller;
 
 import com.github.jgzl.dataflux.domain.SysUser;
-import com.github.jgzl.dataflux.repository.SysUserRepository;
+import com.github.jgzl.dataflux.service.SysUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Example;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping(value = "/sysUser")
 public class SysUserController {
 
-    private SysUserRepository sysUserRepository;
+    private SysUserService sysUserService;
 
     /**
      * 根据id查找用户
@@ -29,7 +29,7 @@ public class SysUserController {
      */
     @GetMapping(value = "/{id}")
     public Mono<SysUser> findById(@PathVariable String id){
-        return sysUserRepository.findById(id);
+        return sysUserService.findById(id);
     }
 
     /**
@@ -38,7 +38,7 @@ public class SysUserController {
      */
     @GetMapping
     public Flux<SysUser> findAll(SysUser item){
-        return sysUserRepository.findAll(Example.of(item));
+        return sysUserService.findAll(Example.of(item));
     }
 
     /**
@@ -48,7 +48,7 @@ public class SysUserController {
      */
     @PostMapping
     public Mono<SysUser> save(@RequestBody SysUser item){
-        return sysUserRepository.save(item);
+        return sysUserService.save(item);
     }
 
     /**
@@ -58,7 +58,7 @@ public class SysUserController {
      */
     @PutMapping
     public Mono<SysUser> update(@RequestBody SysUser item){
-        return sysUserRepository.save(item);
+        return sysUserService.save(item);
     }
 
     /**
@@ -69,7 +69,7 @@ public class SysUserController {
     public void deleteById(@PathVariable String id) {
         List<String> idList = Arrays.stream(id.split(",")).collect(Collectors.toList());
         if (idList.size()>0&&idList.size()<=10) {
-            sysUserRepository.deleteAllById(idList);
+            sysUserService.deleteAllById(idList);
         }else {
             throw new IllegalArgumentException("删除数据超过10行!");
         }
