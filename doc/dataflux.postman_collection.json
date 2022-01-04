@@ -1,0 +1,40 @@
+{
+	"info": {
+		"_postman_id": "d52f50f9-6f3f-4581-aa3c-3459e31e9ee4",
+		"name": "dataflux",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "创建用户",
+			"request": {
+				"auth": {
+					"type": "ntlm"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"account\":\"{{$randomUserName}}\",\n    \"username\":\"{{$randomUserName}}\",\n    \"nickname\":\"{{$randomUserName}}\",\n    \"email\":\"{{$randomEmail}}\",\n    \"age\":{{$randomInt}}\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:9090/sysUser",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9090",
+					"path": [
+						"sysUser"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
